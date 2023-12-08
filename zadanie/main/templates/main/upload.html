@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <!-- Display messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Styled form with Bootstrap -->
+    <h1 >Job interview task - <strong>Zonifero</strong></h1>
+    <form method="post" enctype="multipart/form-data" class="needs-validation mt-4" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.file.label_tag }}
+            <!-- Add an ID to the file input -->
+            <input type="file" name="{{ form.file.name }}" id="fileInput" required>
+            {% if form.file.errors %}
+                <div class="invalid-feedback">
+                    {{ form.file.errors.as_text }}
+                </div>
+            {% endif %}
+        </div>
+        <!-- Add an ID to the submit button and set it to disabled by default -->
+        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Upload</button>
+    </form>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('fileInput').addEventListener('change', function() {
+                var fileInput = document.getElementById('fileInput');
+                var submitBtn = document.getElementById('submitBtn');
+                submitBtn.disabled = !fileInput.value;
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
